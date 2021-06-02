@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Martel&family=Oswald:wght@200;300;400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+  
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  
+    <title>TOMMY VEEN | HTML-CSS</title>
+    <link rel="icon" type="image" href="Istanbul.jpg">    
+</head>
+<body>
+    <main class="container">
+
+    <header class="header">
+        <nav>
+        <ul class= "nav2">
+            <li class="nav2"><a href="index.HTML">|TV|</a></li>
+            <li class="nav2"><a href="index.HTML">Home</a></li>
+            <li class="nav2"><a href="about.HTML">About</a></li>
+            <li class="nav2"><a href="photobooth.HTML">Photobooth</a></li>
+            <li class="nav2"><a href="game.html">Game</a></li>
+            <li class="nav2"><a href="contact.HTML">Contact</a></li>
+            <input type="text" placeholder="Search..">
+        </ul>
+        </nav>
+    </header>
+
+  
+
+    <main class="main1">
+    <section class="gameTitle">
+    <h1 class="gameTitle1">IT'S GAMETIME | GUESS THE NUMB3R</h1>
+    <h2>Choose a number between 1 & 100.</h2>
+    <br>
+    <h1 class="gameTitle2">Can you do it within 10 turns? </h1>
+    <br>
+    <h2 id="welcome"></h2>
+    <br>
+    </section>
+
+    <form id="entername">
+        <input placeholder="Your Name:" type="text" id="name">
+        <input type="button" value="Submit Name" class="nameSubmit" onclick="writeName();"/>
+    </form>
+
+    <div>
+    <label for="guessField"></label><input placeholder="Enter your guess:" type="text" class="guessField">
+    <input type="submit" value="Submit Guess" id="guessSubmit" class="guessSubmit"> 
+    <input type="submit" value="New Game" id="resetButton" class="resetButton"> 
+    </div>
+
+    <div class="resultParas">
+        <p class="guesses"></p>
+        <p id="tryAgain" class="lastResult"></p>
+        <p class="lowOrHi"></p>
+    </div> 
+
+    <script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    const guesses = document.querySelector('.guesses');
+    const lastResult = document.querySelector('.lastResult');
+    const lowOrHi = document.querySelector('.lowOrHi');
+    const guessSubmit = document.querySelector('.guessSubmit');
+    const guessField = document.querySelector('.guessField');
+    const resetButton = document.querySelector('.resetButton');
+    let guessCount = 1;
+    guessField.focus();
+
+    guessField.style.display = 'none';
+    guessSubmit.style.display = 'none';
+    resetButton.style.display = 'none';
+
+    function writeName() {
+        const welcomeMsg = document.getElementById('welcome');
+        let name = document.getElementById('name');
+        const formContent = document.getElementById('entername');
+        
+        welcomeMsg.innerHTML = "Welcome " + name.value + "." + " Enjoy the game!"
+        formContent.innerHTML = "";
+        guessField.style.display = '';
+        guessSubmit.style.display = '';
+        resetButton.style.display = '';
+    }
+    
+    
+    
+    function checkGuess() {
+    let userGuess = Number(guessField.value);
+    if (guessCount === 1) {
+        guesses.textContent = 'Previous guesses: ';
+        guesses.style.fontSize = '125%';
+        guesses.style.padding = '6px';
+        guesses.style.borderRadius = '5px'
+    }
+    guesses.textContent += userGuess + ' ';
+        
+    if (userGuess === randomNumber) {
+            lastResult.textContent = 'Congratz. You got it right!';
+            lastResult.style.fontSize = '125%';
+            lastResult.style.border = '1px solid #5BFDA7';
+            lastResult.style.borderRadius = '5px';
+            lastResult.style.padding = '6px'
+            lastResult.style.width = '20%'
+            lastResult.style.margin = 'auto';
+            lastResult.style.color = '#252A3C'
+            lowOrHi.textContent = '';
+            setGameOver();
+    } else if (guessCount === 10) {
+            lastResult.textContent = 'Game Over';
+            setGameOver();
+            
+    } else {
+            lastResult.textContent = 'Not yet! Wrong number.';
+            lastResult.style.fontSize = '125%';
+            lastResult.style.border = '1px solid #FF5F52';
+            lastResult.style.borderRadius = '5px';
+            lastResult.style.padding = '6px'
+            lastResult.style.width = '20%'
+            lastResult.style.margin = 'auto';
+    if (userGuess < randomNumber) {
+            lowOrHi.textContent = 'Your guess was too low!';
+            lowOrHi.style.fontSize = '125%';
+    } else if(userGuess > randomNumber) {
+            lowOrHi.textContent = 'Your guess was too high!';
+    }
+    }
+    guessCount++;
+    guessField.value = '';
+    guessField.focus();
+    }
+
+    guessSubmit.addEventListener('click', checkGuess);
+  
+    function setGameOver() {
+        guessField.disabled = true;
+        guessSubmit.disabled = true;
+        document.getElementById("guessSubmit").value = 'All Used';
+    }
+
+    resetButton.addEventListener('click', resetGame);
+    
+
+    function resetGame() {
+        guessCount = 1;
+        const resetParas = document.querySelectorAll('.resultParas p');
+        for(let i = 0 ; i < resetParas.length ; i++) {
+          resetParas[i].textContent = '';
+    }
+        guessField.disabled = false;
+        guessSubmit.disabled = false;
+        guessField.value = '';
+        guessField.focus();
+        lastResult.style.backgroundColor = 'white';
+        document.getElementById("guessSubmit").value = "Submit Guess";
+        lastResult.textContent = 'Lets try again!'
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+    }
+    </script>
+    </main>
+    <footer class="footer-g">
+      <section class="footer">
+      <p>FIRST PORTFOLIO WEBSITE BY TOMMY VEEN | HTML & CSS ONLY </p>
+      </section>
+    </footer>   
+    </main> 
+</body>
+</html>
